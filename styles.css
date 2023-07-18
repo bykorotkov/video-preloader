@@ -141,7 +141,7 @@ h1 {
     .wrap {
         width: 100%;
         padding: 0;
-        height: 100vh;
+        min-height: 100vh;
     }
     .video-player .block-play {
         width: 84px;
