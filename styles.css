@@ -62,7 +62,7 @@ h1 {
     opacity: 0.3;
 }
 .video-player .block-play .play {
-    background: url("/images/play.svg") no-repeat center center / contain;
+    background: url("./images/play.svg") no-repeat center center / contain;
     width: 15px;
     height: 17px;
     position: absolute;
