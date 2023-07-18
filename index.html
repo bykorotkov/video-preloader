@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" type="text/css" href="styles.css" />
+
+        <title>Document</title>
+    </head>
+    <body>
+        <div class="wrap">
+            <div class="video-player">
+                <video autoplay="autoplay" muted="muted" loop="loop" preload="auto" class="js-video">
+                    <source src="./videos/zvezda-may23.mp4" type="video/mp4" />
+                    <!-- <source src="/videos/zvezda-may2023-mob.mp4" type="video/mp4" /> -->
+                </video>
+                <div class="block-play js-video-play" data-id="1">
+                    <div class="circle js-video-preloader">
+                        <svg class="circle-fill js-video-preloader-fill" style="stroke-dashoffset: 383.643px">
+                            <circle cx="35" cy="35" r="33" stroke="#ffffff" stroke-width="2" fill="none"></circle>
+                        </svg>
+                        <svg class="circle-track js-video-preloader-track">
+                            <circle cx="35" cy="35" r="33" stroke="#ffffff" stroke-width="2" fill="none"></circle>
+                        </svg>
+                    </div>
+
+                    <div class="play"></div>
+                </div>
+            </div>
+        </div>
+
+        <script src="./index.js"></script>
+    </body>
+</html>
