@@ -27,16 +27,23 @@ function videoPlayer() {
             // videoWrap.innerHTML = `<video autoplay="autoplay" controls class="js-video-open">
             //         <source src="./videos/zvezda-may23.mp4" type="video/mp4" />
             //     </video>`;
-            var video = document.querySelector(".js-video");
-            if (video.requestFullscreen) {
-                video.requestFullscreen();
-            } else if (video.webkitRequestFullscreen) {
-                /* Safari */
-                video.webkitRequestFullscreen();
-            } else if (video.msRequestFullscreen) {
-                /* IE11 */
-                video.msRequestFullscreen();
-            }
+            // var video = document.querySelector(".js-video");
+            // if (video.requestFullscreen) {
+            //     video.requestFullscreen();
+            // } else if (video.webkitRequestFullscreen) {
+            //     /* Safari */
+            //     video.webkitRequestFullscreen();
+            // } else if (video.msRequestFullscreen) {
+            //     /* IE11 */
+            //     video.msRequestFullscreen();
+            // }
+            var videoWrap = document.createElement("div");
+            videoWrap.classList.add("js-video-wrap", "opacity-transition");
+            videoWrap.innerHTML = `<video autoplay="autoplay" controls class="js-video-open">
+                <source src="./videos/zvezda-may23.mp4" type="video/mp4" />
+            </video>`;
+            document.body.appendChild(videoWrap);
+            console.log("123");
         } else {
             var videoWrap = document.createElement("div");
             videoWrap.classList.add("js-video-wrap", "opacity-transition");
@@ -45,8 +52,9 @@ function videoPlayer() {
             </video>
             <div class="close opacity-transition js-full-close"></div>
             <div class="button opacity-transition js-full-button"></div>`;
+
+            document.body.appendChild(videoWrap);
         }
-        document.body.appendChild(videoWrap);
 
         if (!isMobile) {
             var video = document.querySelector(".js-video-open");
