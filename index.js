@@ -73,12 +73,24 @@ function videoPlayer() {
             videoWrap.addEventListener(
                 "touchend",
                 function (e) {
-                    if (Math.abs(distX) > threshold || Math.abs(distY) > threshold) {
-                        // Закрытие видео
-                        var video = videoWrap.querySelector(".js-video-open");
-                        video.pause();
-                        video.currentTime = 0;
-                        videoWrap.remove();
+                    // Определяем направление свайпа и его длину
+                    var isVerticalSwipe = Math.abs(distY) > Math.abs(distX);
+                    var isLongSwipe = Math.abs(distY) > threshold || Math.abs(distX) > threshold;
+
+                    if (isLongSwipe) {
+                        if (isVerticalSwipe && distY > 0) {
+                            // Закрытие видео для свайпа вниз
+                            var video = videoWrap.querySelector(".js-video-open");
+                            video.pause();
+                            video.currentTime = 0;
+                            videoWrap.remove();
+                        } else if (!isVerticalSwipe) {
+                            // Закрытие видео для свайпа влево и вправо
+                            var video = videoWrap.querySelector(".js-video-open");
+                            video.pause();
+                            video.currentTime = 0;
+                            videoWrap.remove();
+                        }
                     }
                 },
                 false
