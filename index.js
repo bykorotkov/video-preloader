@@ -43,7 +43,46 @@ function videoPlayer() {
                 <source src="./videos/zvezda-may23.mp4" type="video/mp4" />
             </video>`;
             document.body.appendChild(videoWrap);
-            console.log("123");
+            // Добавляем обработку событий свайпа
+            var startX,
+                startY,
+                distX,
+                distY,
+                threshold = 150;
+            videoWrap.addEventListener(
+                "touchstart",
+                function (e) {
+                    var touchobj = e.changedTouches[0];
+                    startX = touchobj.clientX;
+                    startY = touchobj.clientY;
+                },
+                false
+            );
+
+            videoWrap.addEventListener(
+                "touchmove",
+                function (e) {
+                    e.preventDefault();
+                    var touchobj = e.changedTouches[0];
+                    distX = touchobj.clientX - startX;
+                    distY = touchobj.clientY - startY;
+                },
+                false
+            );
+
+            videoWrap.addEventListener(
+                "touchend",
+                function (e) {
+                    if (Math.abs(distX) > threshold || Math.abs(distY) > threshold) {
+                        // Закрытие видео
+                        var video = videoWrap.querySelector(".js-video-open");
+                        video.pause();
+                        video.currentTime = 0;
+                        videoWrap.remove();
+                    }
+                },
+                false
+            );
         } else {
             var videoWrap = document.createElement("div");
             videoWrap.classList.add("js-video-wrap", "opacity-transition");
