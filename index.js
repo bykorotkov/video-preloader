@@ -23,13 +23,23 @@ function videoPreloaderProgress() {
 function videoPlayer() {
     var isMobile = window.innerWidth < 768;
     document.querySelector(".js-video-play").addEventListener("click", function () {
-        var videoWrap = document.createElement("div");
-        videoWrap.classList.add("js-video-wrap", "opacity-transition");
         if (isMobile) {
-            videoWrap.innerHTML = `<video autoplay="autoplay" controls class="js-video-open">
-                    <source src="./videos/zvezda-may23.mp4" type="video/mp4" />
-                </video>`;
+            // videoWrap.innerHTML = `<video autoplay="autoplay" controls class="js-video-open">
+            //         <source src="./videos/zvezda-may23.mp4" type="video/mp4" />
+            //     </video>`;
+            var video = document.querySelector(".js-video");
+            if (video.requestFullscreen) {
+                video.requestFullscreen();
+            } else if (video.webkitRequestFullscreen) {
+                /* Safari */
+                video.webkitRequestFullscreen();
+            } else if (video.msRequestFullscreen) {
+                /* IE11 */
+                video.msRequestFullscreen();
+            }
         } else {
+            var videoWrap = document.createElement("div");
+            videoWrap.classList.add("js-video-wrap", "opacity-transition");
             videoWrap.innerHTML = `<video autoplay="autoplay" class="js-video-open">
                 <source src="./videos/zvezda-may23.mp4" type="video/mp4" />
             </video>
