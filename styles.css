@@ -143,7 +143,11 @@ h1 {
         padding: 0;
         height: auto;
         overflow-y: auto;
-        min-height: 100vh;
+        min-height: 100%;
+        padding-top: 150px;
+    }
+    .js-video-wrap video {
+        height: 100%;
     }
     .video-player .block-play {
         width: 84px;
