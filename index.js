@@ -44,6 +44,16 @@ function videoPlayer() {
             var close = document.querySelector(".js-full-close");
             var timer;
 
+            if (videoWrap.requestFullscreen) {
+                videoWrap.requestFullscreen();
+            } else if (videoWrap.webkitRequestFullscreen) {
+                /* Safari */
+                videoWrap.webkitRequestFullscreen();
+            } else if (videoWrap.msRequestFullscreen) {
+                /* IE11 */
+                videoWrap.msRequestFullscreen();
+            }
+
             function hideControls() {
                 button.style.opacity = "0";
                 close.style.opacity = "0";
