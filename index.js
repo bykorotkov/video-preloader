@@ -27,7 +27,7 @@ function videoPlayer() {
         if (isMobile) {
             var videoWrap = document.createElement("div");
             videoWrap.classList.add("js-video-wrap", "opacity-transition");
-            videoWrap.innerHTML = `<video autoplay="autoplay" controls class="js-video-open">
+            videoWrap.innerHTML = `<video autoplay="autoplay" muted='muted' controls class="js-video-open">
                 <source src="./videos/zvezda-may23.mp4" type="video/mp4" />
             </video>`;
             document.body.appendChild(videoWrap);
@@ -37,6 +37,7 @@ function videoPlayer() {
                 distX,
                 distY,
                 threshold = 150;
+            // Добавляем обработку событий свайпа
             videoWrap.addEventListener(
                 "touchstart",
                 function (e) {
@@ -66,8 +67,8 @@ function videoPlayer() {
                     var isLongSwipe = Math.abs(distY) > threshold || Math.abs(distX) > threshold;
 
                     if (isLongSwipe) {
-                        if (isVerticalSwipe && distY > 0) {
-                            // Закрытие видео для свайпа вниз
+                        if (isVerticalSwipe && distY < 0) {
+                            // Закрытие видео для свайпа вверх
                             var video = videoWrap.querySelector(".js-video-open");
                             video.pause();
                             video.currentTime = 0;
@@ -78,15 +79,28 @@ function videoPlayer() {
                             video.pause();
                             video.currentTime = 0;
                             videoWrap.remove();
+                        } else if (isVerticalSwipe && distY > 0) {
+                            // Закрытие видео для свайпа вверх
+                            var video = videoWrap.querySelector(".js-video-open");
+                            video.pause();
+                            video.currentTime = 0;
+                            videoWrap.remove();
                         }
                     }
                 },
                 false
             );
+
+            videoWrap.addEventListener("click", function () {
+                var video = videoWrap.querySelector(".js-video-open");
+                video.pause();
+                video.currentTime = 0;
+                videoWrap.remove();
+            });
         } else {
             var videoWrap = document.createElement("div");
             videoWrap.classList.add("js-video-wrap", "opacity-transition");
-            videoWrap.innerHTML = `<video autoplay="autoplay" muted='muted' class="js-video-open">
+            videoWrap.innerHTML = `<video autoplay="autoplay" class="js-video-open">
                 <source src="./videos/zvezda-may23.mp4" type="video/mp4" />
             </video>
             <div class="close opacity-transition js-full-close"></div>

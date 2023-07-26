@@ -137,17 +137,17 @@ h1 {
     }
     .video-player video {
         width: 100%;
+        height: 100%;
     }
     .wrap {
         width: 100%;
         padding: 0;
-        height: auto;
+        height: 100vh;
         overflow-y: auto;
         min-height: 100%;
-        padding-top: 150px;
     }
     .js-video-wrap video {
-        height: 100%;
+        height: auto;
     }
     .video-player .block-play {
         width: 84px;
@@ -156,5 +156,11 @@ h1 {
     }
     .js-video-wrap .close {
         display: none;
+    }
+    .js-video-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(0, 0, 0, 0.7);
     }
 }
