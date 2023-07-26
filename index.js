@@ -27,7 +27,7 @@ function videoPlayer() {
         if (isMobile) {
             var videoWrap = document.createElement("div");
             videoWrap.classList.add("js-video-wrap", "opacity-transition");
-            videoWrap.innerHTML = `<video autoplay="autoplay" muted='muted' controls class="js-video-open">
+            videoWrap.innerHTML = `<video autoplay="autoplay" controls class="js-video-open">
                 <source src="./videos/zvezda-may23.mp4" type="video/mp4" />
             </video>`;
             document.body.appendChild(videoWrap);
