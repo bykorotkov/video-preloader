@@ -142,9 +142,8 @@ h1 {
     .wrap {
         width: 100%;
         padding: 0;
-        height: 100vh;
+        height: calc(100vh - 100px);
         overflow-y: hidden;
-        min-height: 100%;
     }
     .js-video-wrap video {
         height: auto;
