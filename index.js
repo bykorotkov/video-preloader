@@ -22,21 +22,9 @@ function videoPreloaderProgress() {
 
 function videoPlayer() {
     var isMobile = window.innerWidth < 768;
+
     document.querySelector(".js-video-play").addEventListener("click", function () {
         if (isMobile) {
-            // videoWrap.innerHTML = `<video autoplay="autoplay" controls class="js-video-open">
-            //         <source src="./videos/zvezda-may23.mp4" type="video/mp4" />
-            //     </video>`;
-            // var video = document.querySelector(".js-video");
-            // if (video.requestFullscreen) {
-            //     video.requestFullscreen();
-            // } else if (video.webkitRequestFullscreen) {
-            //     /* Safari */
-            //     video.webkitRequestFullscreen();
-            // } else if (video.msRequestFullscreen) {
-            //     /* IE11 */
-            //     video.msRequestFullscreen();
-            // }
             var videoWrap = document.createElement("div");
             videoWrap.classList.add("js-video-wrap", "opacity-transition");
             videoWrap.innerHTML = `<video autoplay="autoplay" controls class="js-video-open">
@@ -98,13 +86,32 @@ function videoPlayer() {
         } else {
             var videoWrap = document.createElement("div");
             videoWrap.classList.add("js-video-wrap", "opacity-transition");
-            videoWrap.innerHTML = `<video autoplay="autoplay" class="js-video-open">
+            videoWrap.innerHTML = `<video autoplay="autoplay" muted='muted' class="js-video-open">
                 <source src="./videos/zvezda-may23.mp4" type="video/mp4" />
             </video>
             <div class="close opacity-transition js-full-close"></div>
             <div class="button opacity-transition js-full-button"></div>`;
 
             document.body.appendChild(videoWrap);
+
+            // Добавляем обработчик события fullscreenchange
+            document.addEventListener("fullscreenchange", function () {
+                if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+                    // Пользователь вышел из полноэкранного режима
+                    var video = document.querySelector(".js-video-open");
+                    video.pause();
+                    video.currentTime = 0;
+                    document.querySelector(".js-video-wrap").remove();
+                }
+            });
+
+            // Добавляем обработчик события click для кнопки закрытия
+            document.querySelector(".js-full-close").addEventListener("click", function () {
+                var video = document.querySelector(".js-video-open");
+                video.pause();
+                video.currentTime = 0;
+                document.querySelector(".js-video-wrap").remove();
+            });
         }
 
         if (!isMobile) {
@@ -112,6 +119,8 @@ function videoPlayer() {
             var button = document.querySelector(".js-full-button");
             var close = document.querySelector(".js-full-close");
             var timer;
+            var mouseOverButton = false; // Переменная для отслеживания наличия мыши над кнопкой
+            var mouseOverClose = false; // Переменная для отслеживания наличия мыши над кнопкой закрытия
 
             if (videoWrap.requestFullscreen) {
                 videoWrap.requestFullscreen();
@@ -124,8 +133,18 @@ function videoPlayer() {
             }
 
             function hideControls() {
-                button.style.opacity = "0";
-                close.style.opacity = "0";
+                if (!mouseOverButton && !mouseOverClose) {
+                    // Скрываем кнопки только если мышь не над кнопкой
+                    button.style.opacity = "0";
+                    close.style.opacity = "0";
+                }
+            }
+
+            function resetTimer() {
+                clearTimeout(timer);
+                button.style.opacity = "1";
+                close.style.opacity = "1";
+                timer = setTimeout(hideControls, 2000);
             }
 
             document.querySelector(".js-full-close").addEventListener("click", function () {
@@ -133,16 +152,6 @@ function videoPlayer() {
                 video.pause();
                 video.currentTime = 0;
                 document.querySelector(".js-video-wrap").remove();
-            });
-
-            document.addEventListener("keydown", function (event) {
-                if (event.keyCode === 27) {
-                    // проверяем, что это клавиша esc
-                    var video = document.querySelector(".js-video-open");
-                    video.pause();
-                    video.currentTime = 0;
-                    document.querySelector(".js-video-wrap").remove();
-                }
             });
 
             button.addEventListener("click", function () {
@@ -153,13 +162,32 @@ function videoPlayer() {
                     video.pause();
                     button.style.background = "url(./images/full_play.svg) no-repeat center center / cover";
                 }
+                resetTimer();
             });
 
-            video.addEventListener("mousemove", function () {
-                button.style.opacity = "1";
-                close.style.opacity = "1";
+            close.addEventListener("click", function () {
+                var video = document.querySelector(".js-video-open");
+                video.pause();
+                video.currentTime = 0;
+                document.querySelector(".js-video-wrap").remove();
+            });
+
+            video.addEventListener("mousemove", resetTimer);
+            button.addEventListener("mouseenter", function () {
+                mouseOverButton = true; // Мышь находится над кнопкой
                 clearTimeout(timer);
-                timer = setTimeout(hideControls, 2000);
+            });
+            button.addEventListener("mouseleave", function () {
+                mouseOverButton = false; // Мышь ушла с кнопки
+                resetTimer();
+            });
+            close.addEventListener("mouseenter", function () {
+                mouseOverClose = true; // Мышь находится над кнопкой закрытия
+                clearTimeout(timer);
+            });
+            close.addEventListener("mouseleave", function () {
+                mouseOverClose = false; // Мышь ушла с кнопки закрытия
+                resetTimer();
             });
         }
     });
